@@ -7,21 +7,24 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
+
+// vue router
 import VueRouter from 'vue-router'
+
 Vue.use(VueRouter)
 
-const Foo = { template: '<div>foo</div>' }
-const Bar = { template: '<div>bar</div>' }
-
-let routes = [
-    { path: '/foo', component: Foo },
-    { path: '/bar', component: Bar }
-  ];
-
-let router = new VueRouter({
+import {routes} from './routes'
+const router = new VueRouter({
     mode: 'history',
     routes // short for `routes: routes`
 })
+
+// v form
+import { Form, HasError, AlertError } from 'vform'
+
+Vue.component(HasError.name, HasError)
+Vue.component(AlertError.name, AlertError)
+
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
