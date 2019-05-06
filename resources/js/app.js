@@ -28,6 +28,10 @@ Vue.component(AlertError.name, AlertError)
 // laravel vue pagination
 Vue.component('pagination', require('laravel-vue-pagination'));
 
+// Sweet alert
+import Swal from 'sweetalert2'
+
+
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
