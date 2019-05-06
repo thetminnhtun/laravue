@@ -41,13 +41,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
       
       <!-- Notifications Dropdown Menu -->
       <li class="nav-item">
-        <a class="nav-link" href="#">
+        <a class="nav-link" href="{{ route('logout') }}"
+        onclick="event.preventDefault();
+                      document.getElementById('logout-form').submit();">
             <i class="fas fa-power-off text-danger mr-1"></i>
             logout
+          <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+              @csrf
+          </form>
         </a>
       </li>
     </ul>
   </nav>
+
   <!-- /.navbar -->
 
   <!-- Main Sidebar Container -->
@@ -67,7 +73,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <img src="{{ asset('img/user.png') }}" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">Alexander Pierce</a>
+          <a href="#" class="d-block">{{ Auth::user()->name }}</a>
         </div>
       </div>
 
@@ -86,16 +92,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="#" class="nav-link active">
+                <router-link to="foo" class="nav-link">
                   <i class="fa fa-circle-o nav-icon"></i>
-                  <p>Active Page</p>
-                </a>
+                  <p>Foo Page</p>
+                </router-link>
               </li>
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <router-link to="/bar" class="nav-link">
                   <i class="fa fa-circle-o nav-icon"></i>
-                  <p>Inactive Page</p>
-                </a>
+                  <p>Bar Page</p>
+                </router-link>
               </li>
             </ul>
           </li>
@@ -125,7 +131,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <!-- Main content -->
     <div class="content">
-        
+        <div class="container-fluid">
+          
+
+          <router-view></router-view>
+        </div>
     </div>
     <!-- /.content -->
   </div>

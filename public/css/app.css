@@ -13143,6 +13143,86 @@ a.text-muted:hover {
   box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
 }@charset "UTF-8";
 
+.blue {
+  color: #3490dc;
+}
+
+.indigo {
+  color: #6574cd;
+}
+
+.purple {
+  color: #9561e2;
+}
+
+.pink {
+  color: #f66d9b;
+}
+
+.red {
+  color: #e3342f;
+}
+
+.orange {
+  color: #f6993f;
+}
+
+.yellow {
+  color: #ffed4a;
+}
+
+.green {
+  color: #38c172;
+}
+
+.teal {
+  color: #4dc0b5;
+}
+
+.cyan {
+  color: #6cb2eb;
+}
+
+.bg-blue {
+  background-color: #3490dc;
+}
+
+.bg-indigo {
+  background-color: #6574cd;
+}
+
+.bg-purple {
+  background-color: #9561e2;
+}
+
+.bg-pink {
+  background-color: #f66d9b;
+}
+
+.bg-red {
+  background-color: #e3342f;
+}
+
+.bg-orange {
+  background-color: #f6993f;
+}
+
+.bg-yellow {
+  background-color: #ffed4a;
+}
+
+.bg-green {
+  background-color: #38c172;
+}
+
+.bg-teal {
+  background-color: #4dc0b5;
+}
+
+.bg-cyan {
+  background-color: #6cb2eb;
+}
+
 /*!
  * Bootstrap v4.3.1 (https://getbootstrap.com/)
  * Copyright 2011-2019 The Bootstrap Authors
@@ -23808,5 +23888,10 @@ a.text-dark:focus {
 .navbar-laravel {
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+.router-link-active {
+  color: #343a40 !important;
+  background-color: #ebecec;
 }
 
