@@ -25,6 +25,7 @@
     },
     "dependencies": {
         "admin-lte": "^3.0.0-alpha.2",
+        "laravel-vue-pagination": "^2.3.0",
         "vform": "^1.0.0",
         "vue-router": "^3.0.6"
     }
