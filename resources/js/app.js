@@ -15,8 +15,16 @@ Vue.use(VueRouter)
 
 import {routes} from './routes'
 const router = new VueRouter({
-    mode: 'history',
+    //mode: 'history',
     routes // short for `routes: routes`
+})
+
+import VueProgressBar from 'vue-progressbar'
+
+Vue.use(VueProgressBar, {
+  color: 'rgb(143, 255, 199)',
+  failedColor: 'red',
+  height: '2px'
 })
 
 // v form
@@ -25,11 +33,34 @@ import { Form, HasError, AlertError } from 'vform'
 Vue.component(HasError.name, HasError)
 Vue.component(AlertError.name, AlertError)
 
+window.Form = Form;
+
 // laravel vue pagination
 Vue.component('pagination', require('laravel-vue-pagination'));
 
 // Sweet alert
 import Swal from 'sweetalert2'
+
+window.Swal = Swal;
+ 
+window.Toast = Swal.mixin({
+  toast: true,
+  position: 'top-end',
+  showConfirmButton: false,
+  timer: 3000
+});
+
+// Monent js
+window.moment = require('moment');
+
+// vue gloabal filter
+Vue.filter('capitalize', function(value) {
+  return value.charAt(0).toUpperCase() + value.slice(1)
+});
+
+Vue.filter('formatedDate', function(date) {
+  return moment(date).format('MMMM Do YYYY');
+});
 
 
 /**
@@ -42,6 +73,20 @@ import Swal from 'sweetalert2'
 
 // const files = require.context('./', true, /\.vue$/i);
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
+Vue.component(
+  'passport-clients',
+  require('./components/passport/Clients.vue').default
+);
+
+Vue.component(
+  'passport-authorized-clients',
+  require('./components/passport/AuthorizedClients.vue').default
+);
+
+Vue.component(
+  'passport-personal-access-tokens',
+  require('./components/passport/PersonalAccessTokens.vue').default
+);
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 

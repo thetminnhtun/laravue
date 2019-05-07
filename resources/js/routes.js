@@ -1,7 +1,9 @@
 import Dashboard from './components/Dashboard'
-import User from './components/User'
+import Users from './components/Users'
+import Developer from './components/Developer'
 
 export const routes = [
-    { path: '/foo', component: Dashboard },
-    { path: '/bar', component: User }
+    { path: '/dashboard', component: Dashboard },
+    { path: '/users', component: Users },
+    { path: '/developer', component: Developer },
   ];

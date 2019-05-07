@@ -59,7 +59,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="index3.html" class="brand-link">
+    <a href="{{ asset('/home') }}" class="brand-link">
       <img src="{{ asset('img/logo.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
            style="opacity: .8">
       <span class="brand-text font-weight-light">AdminLTE 3</span>
@@ -83,36 +83,29 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item has-treeview menu-open">
-            <a href="#" class="nav-link active">
-              <i class="nav-icon fa fa-dashboard"></i>
+            <a href="#" class="nav-link">
+              <i class="nav-icon fa fa-users-cog blue"></i>
               <p>
-                Starter Pages
+                Manage users
                 <i class="right fa fa-angle-left"></i>
               </p>
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <router-link to="foo" class="nav-link">
-                  <i class="fa fa-circle-o nav-icon"></i>
-                  <p>Foo Page</p>
-                </router-link>
-              </li>
-              <li class="nav-item">
-                <router-link to="/bar" class="nav-link">
-                  <i class="fa fa-circle-o nav-icon"></i>
-                  <p>Bar Page</p>
+                <router-link to="users" class="nav-link">
+                  <i class="fa fa-user nav-icon cyan"></i>
+                  <p>Users</p>
                 </router-link>
               </li>
             </ul>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fa fa-th"></i>
+            <router-link to="developer" class="nav-link">
+              <i class="nav-icon fas fa-cog indigo"></i>
               <p>
-                Simple Link
-                <span class="right badge badge-danger">New</span>
+                Developer
               </p>
-            </a>
+            </router-link>
           </li>
         </ul>
       </nav>
@@ -131,11 +124,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <!-- Main content -->
     <div class="content">
-        <div class="container-fluid">
-          
-
-          <router-view></router-view>
-        </div>
+      <router-view></router-view>
+      <vue-progress-bar></vue-progress-bar>
     </div>
     <!-- /.content -->
   </div>
