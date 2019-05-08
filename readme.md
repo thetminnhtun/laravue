@@ -2,7 +2,7 @@
 
 Laravel and Vue demo project or boilerplate 
 
-
+![Demo](https://github.com/thetminnhtun/laravue/blob/master/demo.png)
 
 ## Purpose
 
