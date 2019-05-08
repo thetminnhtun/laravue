@@ -15,7 +15,17 @@ class UserController extends Controller
      */
     public function index()
     {
-        return User::all();
+        $this->authorize('isAdmin');
+        if($q = request()->q) {
+            $user = User::where(function($query) use ($q) {
+                $query->where('name', 'LIKE', "%$q%")
+                ->orWhere('email', 'LIKE', "%$q%");
+            })->paginate(10);
+        } else {
+            $user = User::paginate(10);
+        }
+
+        return $user;
     }
 
     /**
@@ -48,7 +58,44 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+
+    }
+
+    public function profile()
+    {
+        return auth()->user();
+    }
+
+    public function updateProfile(Request $request) 
+    {
+        $user = auth('api')->user();
+        
+        $this->validate($request,[
+            'name' => 'required|string|max:191',
+            'email' => 'required|string|email|max:191|unique:users,email,'.$user->id,
+            'password' => 'sometimes|required|min:8'
+        ]);
+        
+        $currentPhoto = $user->photo;
+
+        if($request->photo != $currentPhoto) {
+            $imageName = time() . '.' . explode('/', explode(';', $request->photo)[0])[1];
+            \Image::make($request->photo)->resize(512, 512)->save(public_path('img/profile/') . $imageName);
+            $request->merge(['photo' => $imageName]);
+
+            $oldUserPhoto = public_path('img/profile/') . $currentPhoto;
+            if(file_exists($oldUserPhoto)) {
+                unlink($oldUserPhoto);
+            }
+        }
+
+        if(!empty($request->password)) {
+            $request->merge(['password' => bcrypt($request->password)]);
+        }
+
+        $user->update($request->all());
+
+        return response(null, 200);
     }
 
     /**
@@ -63,8 +110,7 @@ class UserController extends Controller
         $this->validate($request, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255'],
-            'password' => ['sometimes', 'string', 'min:8'],
-            'role' => ['required']
+            'password' => ['sometimes', 'required', 'string', 'min:8'],
         ]);
 
         $user = User::findOrFail($id);
@@ -73,7 +119,9 @@ class UserController extends Controller
         if($request->has('password')) {
             $user->password = bcrypt($request->password);
         }
-        $user->role = $request->role;
+        if($request->has('role')) {
+            $user->role = $request->role;
+        }
         $user->save();
 
         return response(null, 200);

@@ -8,12 +8,16 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
+import Gate from './Gate'
+
+Vue.prototype.$gate = new Gate(window.User);
+
 // vue router
 import VueRouter from 'vue-router'
 
 Vue.use(VueRouter)
 
-import {routes} from './routes'
+import {routes} from './Routes'
 const router = new VueRouter({
     //mode: 'history',
     routes // short for `routes: routes`
@@ -62,6 +66,7 @@ Vue.filter('formatedDate', function(date) {
   return moment(date).format('MMMM Do YYYY');
 });
 
+window.Fire = new Vue();
 
 /**
  * The following block of code may be used to automatically register your
@@ -88,6 +93,8 @@ Vue.component(
   require('./components/passport/PersonalAccessTokens.vue').default
 );
 
+Vue.component('page-not-found', require('./components/PageNotFound.vue').default);
+
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 
 /**
@@ -98,5 +105,5 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 
 const app = new Vue({
     el: '#app',
-    router
+    router,
 });
