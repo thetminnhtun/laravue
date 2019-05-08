@@ -1,52 +1,40 @@
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
- */
-
 require('./bootstrap');
-
 window.Vue = require('vue');
-
 import Gate from './Gate'
+import VueRouter from 'vue-router'
+import {routes} from './Routes'
+import VueProgressBar from 'vue-progressbar'
+import { Form, HasError, AlertError } from 'vform'
+import Swal from 'sweetalert2'
+window.moment = require('moment');
 
 Vue.prototype.$gate = new Gate(window.User);
 
-// vue router
-import VueRouter from 'vue-router'
-
+// Vue Router
 Vue.use(VueRouter)
-
-import {routes} from './Routes'
 const router = new VueRouter({
     //mode: 'history',
     routes // short for `routes: routes`
 })
 
-import VueProgressBar from 'vue-progressbar'
-
+// Vue Progressbar
 Vue.use(VueProgressBar, {
   color: 'rgb(143, 255, 199)',
   failedColor: 'red',
   height: '2px'
 })
 
-// v form
-import { Form, HasError, AlertError } from 'vform'
-
+// Vform
 Vue.component(HasError.name, HasError)
 Vue.component(AlertError.name, AlertError)
-
 window.Form = Form;
 
-// laravel vue pagination
+// Laravel Vue Pagination
 Vue.component('pagination', require('laravel-vue-pagination'));
 
 // Sweet alert
-import Swal from 'sweetalert2'
-
 window.Swal = Swal;
- 
+
 window.Toast = Swal.mixin({
   toast: true,
   position: 'top-end',
@@ -54,10 +42,7 @@ window.Toast = Swal.mixin({
   timer: 3000
 });
 
-// Monent js
-window.moment = require('moment');
-
-// vue gloabal filter
+// Vue Global Filter
 Vue.filter('capitalize', function(value) {
   return value.charAt(0).toUpperCase() + value.slice(1)
 });
@@ -66,32 +51,14 @@ Vue.filter('formatedDate', function(date) {
   return moment(date).format('MMMM Do YYYY');
 });
 
+// Vue Event
 window.Fire = new Vue();
 
-/**
- * The following block of code may be used to automatically register your
- * Vue components. It will recursively scan this directory for the Vue
- * components and automatically register them with their "basename".
- *
- * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
- */
+Vue.component( 'passport-clients', require('./components/passport/Clients.vue').default );
 
-// const files = require.context('./', true, /\.vue$/i);
-// files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
-Vue.component(
-  'passport-clients',
-  require('./components/passport/Clients.vue').default
-);
+Vue.component( 'passport-authorized-clients', require('./components/passport/AuthorizedClients.vue').default );
 
-Vue.component(
-  'passport-authorized-clients',
-  require('./components/passport/AuthorizedClients.vue').default
-);
-
-Vue.component(
-  'passport-personal-access-tokens',
-  require('./components/passport/PersonalAccessTokens.vue').default
-);
+Vue.component( 'passport-personal-access-tokens', require('./components/passport/PersonalAccessTokens.vue').default );
 
 Vue.component('page-not-found', require('./components/PageNotFound.vue').default);
 

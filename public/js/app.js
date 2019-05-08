@@ -2205,7 +2205,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -62850,7 +62849,10 @@ var render = function() {
               _c("div", { staticClass: "card" }, [
                 _c("div", { staticClass: "card-header bg-white" }, [
                   _c("h3", { staticClass: "card-title mb-0" }, [
-                    _vm._v("Users list")
+                    _vm._v("Users list "),
+                    _c("span", { staticClass: "badge badge-info" }, [
+                      _vm._v(_vm._s(_vm.users.total))
+                    ])
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "card-tools" }, [
@@ -79309,39 +79311,36 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vform__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(vform__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_5__);
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
- */
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 
-Vue.prototype.$gate = new _Gate__WEBPACK_IMPORTED_MODULE_0__["default"](window.User); // vue router
 
+
+
+
+
+window.moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+Vue.prototype.$gate = new _Gate__WEBPACK_IMPORTED_MODULE_0__["default"](window.User); // Vue Router
 
 Vue.use(vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]);
-
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
   //mode: 'history',
   routes: _Routes__WEBPACK_IMPORTED_MODULE_2__["routes"] // short for `routes: routes`
 
-});
+}); // Vue Progressbar
 
 Vue.use(vue_progressbar__WEBPACK_IMPORTED_MODULE_3___default.a, {
   color: 'rgb(143, 255, 199)',
   failedColor: 'red',
   height: '2px'
-}); // v form
-
+}); // Vform
 
 Vue.component(vform__WEBPACK_IMPORTED_MODULE_4__["HasError"].name, vform__WEBPACK_IMPORTED_MODULE_4__["HasError"]);
 Vue.component(vform__WEBPACK_IMPORTED_MODULE_4__["AlertError"].name, vform__WEBPACK_IMPORTED_MODULE_4__["AlertError"]);
-window.Form = vform__WEBPACK_IMPORTED_MODULE_4__["Form"]; // laravel vue pagination
+window.Form = vform__WEBPACK_IMPORTED_MODULE_4__["Form"]; // Laravel Vue Pagination
 
 Vue.component('pagination', __webpack_require__(/*! laravel-vue-pagination */ "./node_modules/laravel-vue-pagination/dist/laravel-vue-pagination.common.js")); // Sweet alert
-
 
 window.Swal = sweetalert2__WEBPACK_IMPORTED_MODULE_5___default.a;
 window.Toast = sweetalert2__WEBPACK_IMPORTED_MODULE_5___default.a.mixin({
@@ -79349,27 +79348,16 @@ window.Toast = sweetalert2__WEBPACK_IMPORTED_MODULE_5___default.a.mixin({
   position: 'top-end',
   showConfirmButton: false,
   timer: 3000
-}); // Monent js
-
-window.moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"); // vue gloabal filter
+}); // Vue Global Filter
 
 Vue.filter('capitalize', function (value) {
   return value.charAt(0).toUpperCase() + value.slice(1);
 });
 Vue.filter('formatedDate', function (date) {
   return moment(date).format('MMMM Do YYYY');
-});
-window.Fire = new Vue();
-/**
- * The following block of code may be used to automatically register your
- * Vue components. It will recursively scan this directory for the Vue
- * components and automatically register them with their "basename".
- *
- * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
- */
-// const files = require.context('./', true, /\.vue$/i);
-// files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
+}); // Vue Event
 
+window.Fire = new Vue();
 Vue.component('passport-clients', __webpack_require__(/*! ./components/passport/Clients.vue */ "./resources/js/components/passport/Clients.vue")["default"]);
 Vue.component('passport-authorized-clients', __webpack_require__(/*! ./components/passport/AuthorizedClients.vue */ "./resources/js/components/passport/AuthorizedClients.vue")["default"]);
 Vue.component('passport-personal-access-tokens', __webpack_require__(/*! ./components/passport/PersonalAccessTokens.vue */ "./resources/js/components/passport/PersonalAccessTokens.vue")["default"]);

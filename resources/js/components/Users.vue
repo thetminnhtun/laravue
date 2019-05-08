@@ -4,8 +4,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header bg-white">
-                        <h3 class="card-title mb-0">Users list</h3>
-                        
+                        <h3 class="card-title mb-0">Users list <span class="badge badge-info">{{ users.total }}</span></h3>
                         <div class="card-tools">
                             <div class="row">
                                 <div class="col">
