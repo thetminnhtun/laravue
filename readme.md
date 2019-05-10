@@ -12,7 +12,7 @@ This is a project to use boilterplate in Laravel and Vue using projects.
 
 [Code Inspire](https://github.com/Hujjat/laravStart)
 
-## Features
+## Dependencies and Plugins
 
 - AdminLte 3
 - Font Awesome
