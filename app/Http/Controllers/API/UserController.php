@@ -66,16 +66,16 @@ class UserController extends Controller
         return auth()->user();
     }
 
-    public function updateProfile(Request $request) 
+    public function updateProfile(Request $request)
     {
         $user = auth('api')->user();
-        
+
         $this->validate($request,[
             'name' => 'required|string|max:191',
             'email' => 'required|string|email|max:191|unique:users,email,'.$user->id,
             'password' => 'sometimes|required|min:8'
         ]);
-        
+
         $currentPhoto = $user->photo;
 
         if($request->photo != $currentPhoto) {
@@ -83,9 +83,11 @@ class UserController extends Controller
             \Image::make($request->photo)->resize(512, 512)->save(public_path('img/profile/') . $imageName);
             $request->merge(['photo' => $imageName]);
 
-            $oldUserPhoto = public_path('img/profile/') . $currentPhoto;
-            if(file_exists($oldUserPhoto)) {
-                unlink($oldUserPhoto);
+            if($currentPhoto && $currentPhoto != 'user.png') {
+                $oldUserPhoto = public_path('img/profile/') . $currentPhoto;
+                if(file_exists($oldUserPhoto)) {
+                    unlink($oldUserPhoto);
+                }
             }
         }
 

@@ -9,6 +9,10 @@ import Swal from 'sweetalert2'
 window.moment = require('moment');
 
 Vue.prototype.$gate = new Gate(window.User);
+if(APP_URL != undefined) {
+    Vue.prototype.$url = APP_URL;
+}
+
 
 // Vue Router
 Vue.use(VueRouter)
@@ -74,3 +78,4 @@ const app = new Vue({
     el: '#app',
     router,
 });
+

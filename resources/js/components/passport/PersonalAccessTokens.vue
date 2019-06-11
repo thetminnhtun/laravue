@@ -205,7 +205,7 @@
              * Get all of the personal access tokens for the user.
              */
             getTokens() {
-                axios.get('oauth/personal-access-tokens')
+                axios.get(this.$url + '/oauth/personal-access-tokens')
                         .then(response => {
                             this.tokens = response.data;
                         });

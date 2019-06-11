@@ -1981,9 +1981,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      user: {},
       form: new Form({
         id: '',
         name: '',
@@ -2000,6 +2003,8 @@ __webpack_require__.r(__webpack_exports__);
 
       this.$Progress.start();
       axios.get('api/profile').then(function (res) {
+        _this.user = res.data;
+
         _this.form.fill(res.data);
 
         _this.$Progress.finish();
@@ -2066,7 +2071,13 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     getProfilePhoto: function getProfilePhoto() {
-      return this.form.photo.length > 100 ? this.form.photo : 'img/profile/' + this.form.photo;
+      var imagePath = "".concat(this.$url, "/img/profile");
+
+      if (this.user.photo) {
+        return "".concat(imagePath, "/").concat(this.user.photo);
+      }
+
+      return "".concat(imagePath, "/user.png");
     }
   },
   created: function created() {
@@ -2205,13 +2216,21 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      url: "".concat(this.$url, "/api/users"),
       q: '',
       editMode: false,
-      users: {},
+      items: {},
       form: new Form({
         id: '',
         name: '',
@@ -2226,8 +2245,8 @@ window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
       var _this = this;
 
       var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
-      axios.get('api/users?page=' + page + "&q=" + this.q).then(function (response) {
-        _this.users = response.data;
+      axios.get("".concat(this.url, "?page=").concat(page, "&q=").concat(this.q)).then(function (response) {
+        _this.items = response.data;
       });
     },
     view: function view() {
@@ -2237,9 +2256,9 @@ window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 
       if (this.$gate.isAdmin()) {
         this.$Progress.start();
-        var url = search ? 'api/users?q=' + this.q : 'api/users';
+        var url = search ? "".concat(this.url, "?q=").concat(this.q) : this.url;
         axios.get(url).then(function (res) {
-          _this2.users = res.data;
+          _this2.items = res.data;
 
           _this2.$Progress.finish();
         })["catch"](function (err) {
@@ -3059,7 +3078,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     getTokens: function getTokens() {
       var _this = this;
 
-      axios.get('oauth/personal-access-tokens').then(function (response) {
+      axios.get(this.$url + '/oauth/personal-access-tokens').then(function (response) {
         _this.tokens = response.data;
       });
     },
@@ -62592,21 +62611,27 @@ var render = function() {
                       _c("tr", [
                         _c("td", [_vm._v("Name")]),
                         _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(_vm.form.name))])
+                        _c("td", [_vm._v(_vm._s(_vm.user.name))])
                       ]),
                       _vm._v(" "),
                       _c("tr", [
                         _c("td", [_vm._v("Email")]),
                         _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(_vm.form.email))])
+                        _c("td", [_vm._v(_vm._s(_vm.user.email))])
                       ]),
                       _vm._v(" "),
                       _c("tr", [
                         _c("td", [_vm._v("Role")]),
                         _vm._v(" "),
-                        _c("td", [
-                          _vm._v(_vm._s(_vm._f("capitalize")(_vm.form.role)))
-                        ])
+                        _vm.user.role
+                          ? _c("td", [
+                              _vm._v(
+                                "\n                                            " +
+                                  _vm._s(_vm._f("capitalize")(_vm.user.role)) +
+                                  "\n                                        "
+                              )
+                            ])
+                          : _vm._e()
                       ])
                     ])
                   ])
@@ -62849,9 +62874,15 @@ var render = function() {
               _c("div", { staticClass: "card" }, [
                 _c("div", { staticClass: "card-header bg-white" }, [
                   _c("h3", { staticClass: "card-title mb-0" }, [
-                    _vm._v("Users list "),
+                    _vm._v(
+                      "\n                        Users list\n                        "
+                    ),
                     _c("span", { staticClass: "badge badge-info" }, [
-                      _vm._v(_vm._s(_vm.users.total))
+                      _vm._v(
+                        "\n                            " +
+                          _vm._s(_vm.items.total) +
+                          "\n                        "
+                      )
                     ])
                   ]),
                   _vm._v(" "),
@@ -62933,21 +62964,32 @@ var render = function() {
                       [
                         _vm._m(0),
                         _vm._v(" "),
-                        _vm._l(_vm.users.data, function(user) {
-                          return _c("tr", { key: user.id }, [
-                            _c("td", [_vm._v(_vm._s(user.id))]),
+                        _vm._l(_vm.items.data, function(item, i) {
+                          return _c("tr", { key: item.id }, [
+                            _c("td", [
+                              _vm._v(
+                                "\n                                    " +
+                                  _vm._s(
+                                    (_vm.items.current_page - 1) *
+                                      _vm.items.per_page +
+                                      i +
+                                      1
+                                  ) +
+                                  "\n                                "
+                              )
+                            ]),
                             _vm._v(" "),
-                            _c("td", [_vm._v(_vm._s(user.name))]),
+                            _c("td", [_vm._v(_vm._s(item.name))]),
                             _vm._v(" "),
-                            _c("td", [_vm._v(_vm._s(user.email))]),
+                            _c("td", [_vm._v(_vm._s(item.email))]),
                             _vm._v(" "),
                             _c("td", [
-                              _vm._v(_vm._s(_vm._f("capitalize")(user.role)))
+                              _vm._v(_vm._s(_vm._f("capitalize")(item.role)))
                             ]),
                             _vm._v(" "),
                             _c("td", [
                               _vm._v(
-                                _vm._s(_vm._f("formatedDate")(user.created_at))
+                                _vm._s(_vm._f("formatedDate")(item.created_at))
                               )
                             ]),
                             _vm._v(" "),
@@ -62958,7 +63000,7 @@ var render = function() {
                                   attrs: { href: "#" },
                                   on: {
                                     click: function($event) {
-                                      return _vm.edit(user)
+                                      return _vm.edit(item)
                                     }
                                   }
                                 },
@@ -62973,7 +63015,7 @@ var render = function() {
                                   attrs: { href: "#" },
                                   on: {
                                     click: function($event) {
-                                      return _vm.destroy(user.id)
+                                      return _vm.destroy(item.id)
                                     }
                                   }
                                 },
@@ -62994,7 +63036,7 @@ var render = function() {
               ]),
               _vm._v(" "),
               _c("pagination", {
-                attrs: { data: _vm.users },
+                attrs: { data: _vm.items },
                 on: { "pagination-change-page": _vm.getResults }
               })
             ],
@@ -79321,7 +79363,12 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 
 
 window.moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
-Vue.prototype.$gate = new _Gate__WEBPACK_IMPORTED_MODULE_0__["default"](window.User); // Vue Router
+Vue.prototype.$gate = new _Gate__WEBPACK_IMPORTED_MODULE_0__["default"](window.User);
+
+if (APP_URL != undefined) {
+  Vue.prototype.$url = APP_URL;
+} // Vue Router
+
 
 Vue.use(vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]);
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({

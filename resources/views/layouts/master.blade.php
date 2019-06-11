@@ -10,6 +10,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
 
+    <meta name="description" content="Boilerplate using Laravel and Vuejs">
+    <meta name="author" content="Thet Minn Htun">
+
+    <!-- Favicons -->
+    <link rel="icon" href="{{asset('img/logo.png')}}" type="image/png">
+    <meta name="theme-color" content="#563d7c">
+
   <title>AdminLTE 3 | Starter</title>
 
     <!-- CSRF Token -->
@@ -38,7 +45,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
       <!-- Messages Dropdown Menu -->
-      
+
       <!-- Notifications Dropdown Menu -->
       <li class="nav-item">
         <a class="nav-link" href="{{ route('logout') }}"
@@ -73,7 +80,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <img src="{{ Auth::user()->photo ? asset("img/profile/" . Auth::user()->photo) : asset('img/profile/user.png') }}" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">{{ Auth::user()->name }}</a>
+            <a href="{{url('#/profile')}}" class="d-block">{{ Auth::user()->name }}</a>
         </div>
       </div>
 
@@ -94,7 +101,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <router-link to="users" class="nav-link">
+                <router-link to="/users" class="nav-link">
                   <i class="fa fa-users nav-icon pink"></i>
                   <p>Users</p>
                 </router-link>
@@ -103,17 +110,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
           </li>
 
             <li class="nav-item">
-              <router-link to="developer" class="nav-link">
+              <router-link to="/developer" class="nav-link">
                 <i class="nav-icon fas fa-cog green"></i>
                 <p>
                   Developer
                 </p>
               </router-link>
             </li>
-          @endcan         
+          @endcan
 
           <li class="nav-item">
-            <router-link to="profile" class="nav-link">
+            <router-link to="/profile" class="nav-link">
               <i class="nav-icon fas fa-user-circle orange"></i>
               <p>
                 Profile
@@ -131,7 +138,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <div class="content-header">
-      
+
     </div>
     <!-- /.content-header -->
 
@@ -147,7 +154,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
     <!-- Control sidebar content goes here -->
-    
+
   </aside>
   <!-- /.control-sidebar -->
 
@@ -168,6 +175,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
     window.User = @json(Auth::user());
   </script>
 @endauth
+
+<script>
+    const APP_URL = "{{ url("/") }}";
+</script>
 
 <!-- REQUIRED SCRIPTS -->
 <script src="{{ asset('js/app.js') }}"></script>

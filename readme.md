@@ -35,6 +35,7 @@ This is a project to use boilterplate in Laravel and Vue using projects.
     - In Linux `cp .env.example .env`
     - In Window `copy .env.example .env` and set database connection
 - Run `php artisan key:generate` to generate the app key
+- Run `php artisan passport:keys` to generate the passport key
 - Run `php artisan migrate --seed` to create table and to seed data
 - Done. 
 

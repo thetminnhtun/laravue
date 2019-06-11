@@ -19,43 +19,45 @@
                                     <tbody>
                                         <tr>
                                             <td>Name</td>
-                                            <td>{{ form.name }}</td>
+                                            <td>{{ user.name }}</td>
                                         </tr>
                                         <tr>
                                             <td>Email</td>
-                                            <td>{{ form.email }}</td>
+                                            <td>{{ user.email }}</td>
                                         </tr>
                                         <tr>
                                             <td>Role</td>
-                                            <td>{{ form.role | capitalize }}</td>
+                                            <td v-if="user.role">
+                                                {{ user.role | capitalize }}
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
                             <!-- /.tab-pane -->
-                        
+
                             <div class="tab-pane" id="settings">
                                 <form @submit.prevent="update">
                                     <div class="form-group">
-                                        <input v-model="form.name" type="text" name="name" 
+                                        <input v-model="form.name" type="text" name="name"
                                             placeholder="Name"
                                             class="form-control" :class="{ 'is-invalid': form.errors.has('name') }">
                                         <has-error :form="form" field="name"></has-error>
                                     </div>
                                     <div class="form-group">
-                                        <input v-model="form.email" type="email" name="email" 
+                                        <input v-model="form.email" type="email" name="email"
                                             placeholder="Email"
                                             class="form-control" :class="{ 'is-invalid': form.errors.has('email') }">
                                         <has-error :form="form" field="email"></has-error>
                                     </div>
-                                    
+
                                     <div class="form-group">
                                         <label >Choose profile photo</label>
                                         <input type="file" class="form-control-file" @change="readImage">
                                     </div>
-                                    
+
                                     <div class="form-group">
-                                        <input v-model.trim="form.password" type="password" name="password" 
+                                        <input v-model.trim="form.password" type="password" name="password"
                                             placeholder="Password (Leave empty if not changing)"
                                             class="form-control" :class="{ 'is-invalid': form.errors.has('password') }">
                                         <has-error :form="form" field="password"></has-error>
@@ -77,6 +79,7 @@
     export default {
          data() {
             return {
+                user: {},
                 form: new Form({
                     id: '',
                     name: '',
@@ -84,7 +87,7 @@
                     password: '',
                     role: '',
                     photo: '',
-                }) 
+                })
             }
         },
         methods: {
@@ -92,8 +95,9 @@
                 this.$Progress.start()
                 axios.get('api/profile')
                 .then(res => {
-                    this.form.fill(res.data)
-                    this.$Progress.finish()
+                    this.user = res.data;
+                    this.form.fill(res.data);
+                    this.$Progress.finish();
                 })
                 .catch(err => {
                     console.log(err)
@@ -104,7 +108,7 @@
                     });
                     this.$Progress.fail()
                 });
-                
+
             },
             readImage(e) {
                 let file = e.target.files[0];
@@ -122,7 +126,7 @@
                         text: 'The photo may not greater than 2MB'
                     });
                 }
-            },  
+            },
             update() {
                 this.$Progress.start()
                 if(this.form.password == ''){
@@ -145,10 +149,14 @@
                         text: 'Something went wrong!'
                     });
                     this.$Progress.fail()
-                }) 
+                })
             },
             getProfilePhoto() {
-                return (this.form.photo.length > 100) ? this.form.photo : 'img/profile/' + this.form.photo;
+                let imagePath = `${this.$url}/img/profile`;
+                if(this.user.photo) {
+                    return `${imagePath}/${this.user.photo}`;
+                }
+                return `${imagePath}/user.png`;
             }
         },
         created() {

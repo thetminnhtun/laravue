@@ -4,7 +4,12 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header bg-white">
-                        <h3 class="card-title mb-0">Users list <span class="badge badge-info">{{ users.total }}</span></h3>
+                        <h3 class="card-title mb-0">
+                            Users list
+                            <span class="badge badge-info">
+                                {{ items.total }}
+                            </span>
+                        </h3>
                         <div class="card-tools">
                             <div class="row">
                                 <div class="col">
@@ -37,18 +42,20 @@
                                     <th>Date</th>
                                     <th>Action</th>
                                 </tr>
-                                <tr v-for="user in users.data" :key="user.id">
-                                    <td>{{ user.id }}</td>
-                                    <td>{{ user.name }}</td>
-                                    <td>{{ user.email }}</td>
-                                    <td>{{ user.role | capitalize }}</td>
-                                    <td>{{ user.created_at | formatedDate }}</td>
+                                <tr v-for="(item,i) in items.data" :key="item.id">
                                     <td>
-                                        <a href="#" @click="edit(user)">
+                                        {{ ( (items.current_page - 1) * items.per_page ) + i + 1 }}
+                                    </td>
+                                    <td>{{ item.name }}</td>
+                                    <td>{{ item.email }}</td>
+                                    <td>{{ item.role | capitalize }}</td>
+                                    <td>{{ item.created_at | formatedDate }}</td>
+                                    <td>
+                                        <a href="#" @click="edit(item)">
                                             <i class="fa fa-edit blue"></i>
                                         </a>
                                         /
-                                        <a href="#" @click="destroy(user.id)">
+                                        <a href="#" @click="destroy(item.id)">
                                             <i class="fa fa-trash-alt red"></i>
                                         </a>
                                     </td>
@@ -57,10 +64,10 @@
                         </table>
                     </div> <!-- /.card-body -->
                 </div> <!-- /.card -->
-                <pagination :data="users" @pagination-change-page="getResults"></pagination>
+                <pagination :data="items" @pagination-change-page="getResults"></pagination>
             </div> <!-- col-md-12 -->
         </div> <!-- .row -->
-    
+
         <div v-else>
             <page-not-found></page-not-found>
         </div>
@@ -78,13 +85,13 @@
             <form @submit.prevent="editMode ? update() : store()">
                 <div class="modal-body">
                     <div class="form-group">
-                        <input v-model="form.name" type="text" name="name" 
+                        <input v-model="form.name" type="text" name="name"
                             placeholder="Name"
                             class="form-control" :class="{ 'is-invalid': form.errors.has('name') }">
                         <has-error :form="form" field="name"></has-error>
                     </div>
                     <div class="form-group">
-                        <input v-model="form.email" type="email" name="email" 
+                        <input v-model="form.email" type="email" name="email"
                             placeholder="Email"
                             class="form-control" :class="{ 'is-invalid': form.errors.has('email') }">
                         <has-error :form="form" field="email"></has-error>
@@ -99,7 +106,7 @@
                         <has-error :form="form" field="role"></has-error>
                     </div>
                     <div class="form-group">
-                        <input v-model="form.password" type="password" name="password" 
+                        <input v-model="form.password" type="password" name="password"
                             placeholder="Password"
                             class="form-control" :class="{ 'is-invalid': form.errors.has('password') }">
                         <has-error :form="form" field="password"></has-error>
@@ -124,32 +131,33 @@ window._ = require('lodash');
     export default {
         data() {
             return {
+                url: `${this.$url}/api/users`,
                 q: '',
                 editMode: false,
-                users: {},
+                items: {},
                 form: new Form({
                     id: '',
                     name: '',
                     email: '',
                     password: '',
                     role: '',
-                }) 
+                })
             }
         },
         methods: {
             getResults(page = 1) {
-                axios.get('api/users?page=' + page + "&q=" + this.q)
+                axios.get(`${this.url}?page=${page}&q=${this.q}`)
                     .then(response => {
-                        this.users = response.data;
+                        this.items = response.data;
                     });
             },
             view(search = false) {
                 if(this.$gate.isAdmin()) {
                     this.$Progress.start()
-                    let url = search ? 'api/users?q=' + this.q : 'api/users';
+                    let url = search ? `${this.url}?q=${this.q}` : this.url;
                     axios.get(url)
                     .then(res => {
-                        this.users = res.data
+                        this.items = res.data
                         this.$Progress.finish()
                     })
                     .catch(err => {
@@ -195,7 +203,7 @@ window._ = require('lodash');
                         text: 'Something went wrong!'
                     });
                     this.$Progress.fail()
-                }) 
+                })
             },
             edit(user) {
                 this.form.clear();
@@ -225,7 +233,7 @@ window._ = require('lodash');
                         text: 'Something went wrong!'
                     });
                     this.$Progress.fail()
-                }) 
+                })
             },
             destroy(id) {
                 Swal.fire({
@@ -260,7 +268,7 @@ window._ = require('lodash');
                         })
                     }
                 })
-                
+
             }
         },
         created() {
